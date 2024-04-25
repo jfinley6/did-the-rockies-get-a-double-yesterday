@@ -24,4 +24,8 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    from . import double
+    app.register_blueprint(double.bp)
+    app.add_url_rule('/', endpoint='index')
+
     return app
