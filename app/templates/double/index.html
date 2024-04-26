@@ -1,11 +1,17 @@
-<!doctype html>
+<!DOCTYPE html>
 <title>Did The Rockies Get a Double Yesterday?</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<nav>
-  <h1>Flaskr</h1>
-</nav>
-<section class="content">
-  <header>
-    {% block header %}{% endblock %}
-  </header>
-</section>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.icon') }}">
+<div class="container">
+    <div class="content">
+        <h1>Did The Rockies Get a Double Yesterday?</h1>
+        <div class="double-answer">
+            {{double.answer}}
+            <h2>{{double.details}}</h2>
+        </div>
+
+        {% if "moreDetails" in double %}
+            <h2>{{double.moreDetails}}</h2>
+        {% endif %}
+    </div>
+</div>
