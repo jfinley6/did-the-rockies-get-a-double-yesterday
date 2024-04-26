@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <title>Did The Rockies Get a Double Yesterday?</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.icon') }}">
+<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.icon') }}" />
 <div class="container">
     <div class="content">
         <h1>Did The Rockies Get a Double Yesterday?</h1>
@@ -11,7 +11,19 @@
         </div>
 
         {% if "moreDetails" in double %}
-            <h2>{{double.moreDetails}}</h2>
+        <h2>{{double.moreDetails}}</h2>
         {% endif %}
     </div>
+    <footer>
+        <h4>
+            This project is something I built for fun and is an
+            <a target="_blank" href="https://github.com/jfinley6/did-the-rockies-get-a-double-yesterday"
+                >open source project</a
+            >
+        </h4>
+        <h4>
+            Created and maintained by
+            <a target="_blank" href="https://www.linkedin.com/in/john-tyler-finley/">John Finley</a>
+        </h4>
+    </footer>
 </div>
