@@ -56,9 +56,10 @@ def is_double_yesterday():
         }
         return double
     
+    link = "https://www.milehighonthecheap.com/rockies-special-deal-free-chicken-nuggets-mcdonalds-denver/" 
+
     #Check if Number of Doubles is Greater Than 0
-    if int(scrape_rockies_stats('2B')) > 0:
-        link = "https://www.milehighonthecheap.com/rockies-special-deal-free-chicken-nuggets-mcdonalds-denver/"
+    if int(scrape_rockies_stats('2B')) < 0:
         double = {
             "answer": "YES",
             "details": "The Rockies Got a Double Yesterday!",
@@ -67,10 +68,11 @@ def is_double_yesterday():
                             <a target='_blank' href={link}>here.</a>")
         }
     else:
-        link = "https://www.milehighonthecheap.com/rockies-special-deal-free-chicken-nuggets-mcdonalds-denver/" 
         double = {
             "answer": "NO",
             "details": "The Rockies Did Not Get a Double Yesterday...",
-            "moreDetails": "lol"
+            "moreDetails": Markup("That means no free double cheeseburger from McDonald's today. \
+                                  Details about this promotion can be found \
+                                <a target='_blank' href={link}>here.</a> ")
         }
     return double
