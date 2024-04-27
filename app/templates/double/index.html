@@ -2,28 +2,5 @@
 <title>Did The Rockies Get a Double Yesterday?</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.icon') }}" />
-<div class="container">
-    <div class="content">
-        <h1>Did The Rockies Get a Double Yesterday?</h1>
-        <div class="double-answer">
-            {{double.answer}}
-            <h2>{{double.details}}</h2>
-        </div>
-
-        {% if "moreDetails" in double %}
-        <h2>{{double.moreDetails}}</h2>
-        {% endif %}
-    </div>
-    <footer>
-        <h4>
-            This website was built for fun and is an
-            <a target="_blank" href="https://github.com/jfinley6/did-the-rockies-get-a-double-yesterday"
-            >Open Source Project</a
-            >
-        </h4>
-        <h4>
-            Created and maintained by
-            <a target="_blank" href="https://www.linkedin.com/in/john-tyler-finley/">John Finley</a>
-        </h4>
-    </footer>
-</div>
+<div class="container"></div>
+<script src="{{ url_for('static', filename='script.js' )}}"></script>
