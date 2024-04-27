@@ -138,6 +138,9 @@ def get_next_game_data():
 
 
 def is_double_yesterday():
+    # Promotion Link
+    link = "https://www.milehighonthecheap.com/rockies-special-deal-free-chicken-nuggets-mcdonalds-denver/"
+    
     # Check to see if Rockies played yesterday
     if scrape_rockies_stats('date_game') != get_yesterdays_date().strftime('%b %d'):
         next_rockies_game_date = get_next_rockies_game_date()
@@ -149,11 +152,11 @@ def is_double_yesterday():
             "details": "The Rockies Didn't Play Yesterday...",
             "moreDetails": Markup(f"The Rockies play again on {add_ordinal_suffix(next_rockies_game_date)} \
                             against the {opposing_team}.  <div>Check back here on {add_ordinal_suffix(day_after_next_game)} \
-                            to see if the Rockies got a double.</div>")
+                            to see if the Rockies got a double for the \
+                            <a target='_blank' href={link}>McDonald's Promotion</a>.</div>")
         }
         return double
 
-    link = "https://www.milehighonthecheap.com/rockies-special-deal-free-chicken-nuggets-mcdonalds-denver/"
 
     # Check if Number of Doubles is Greater Than 0
     if int(scrape_rockies_stats('2B')) > 0:
