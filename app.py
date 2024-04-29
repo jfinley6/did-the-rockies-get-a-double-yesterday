@@ -1,7 +1,7 @@
 import os
 
-from flask import Flask
-
+from flask import Flask, render_template
+from services import is_double_yesterday
 
 def create_app(test_config=None):
     # create and configure the app
@@ -24,8 +24,20 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from . import double
-    app.register_blueprint(double.bp)
-    app.add_url_rule('/', endpoint='index')
+    @app.route('/')
+    def index():
+        return render_template('double/index.html')
+
+    @app.route('/_internal/get_double_data')
+    def get_double_data():
+        result = is_double_yesterday()
+        return result
 
     return app
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(
+        host="0.0.0.0",
+        port=8000,
+    )

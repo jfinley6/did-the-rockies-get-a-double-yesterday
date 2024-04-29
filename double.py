@@ -2,7 +2,7 @@ from flask import (
     Blueprint, render_template, jsonify
 )
 
-from app.services import is_double_yesterday
+from services import is_double_yesterday
 
 bp = Blueprint('double', __name__)
 
