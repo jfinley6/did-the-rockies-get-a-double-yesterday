@@ -50,13 +50,15 @@ function checkLocalStorage() {
     if (storedUserData !== null && storedUserData.dateAccessed === currentDate) {
         return Promise.resolve(storedUserData);
     } else {
-        console.log("lol");
         return fetch("/_internal/get_double_data")
             .then((response) => response.json())
             .then((data) => {
                 saveToLocalStorage(data)
                 return data;
-            });
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 }
 
