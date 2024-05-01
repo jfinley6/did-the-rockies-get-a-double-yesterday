@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <title>Did The Rockies Get a Double Yesterday?</title>
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.icon') }}" />
-<div class="container"></div>
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.icon') }}" />
+</head>
+<div class="container">
+    <div class="placeholder-image">
+        <img src="https://www.mlbstatic.com/team-logos/share/115.jpg">
+    </div>
+</div>
 <script src="{{ url_for('static', filename='script.js' )}}"></script>

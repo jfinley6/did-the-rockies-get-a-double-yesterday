@@ -1,6 +1,9 @@
 // Generate HTML using double data
 function generateHTML(data) {
     let container = document.querySelector(".container");
+    let placeholderImage = document.querySelector(".placeholder-image")
+    placeholderImage.remove()
+    document.body.style.display = "flex";
 
     let htmlData =
         '<div class="content">' +

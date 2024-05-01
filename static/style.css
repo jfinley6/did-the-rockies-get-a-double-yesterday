@@ -16,6 +16,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100dvh;
+    display: none;
 }
 
 .container {
@@ -51,10 +52,10 @@ h2 {
     line-height: 100%;
     border-top: 2px solid black;
     padding-top: 20px;
-    margin-top: 40px;
+    margin-top: 30px;
     border-bottom: 2px solid black;
     padding-bottom: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 a {
@@ -74,6 +75,17 @@ footer {
 
 footer > h4 {
     margin: 0.5rem;
+}
+
+.placeholder-image {
+    width: 0vw;
+    /* height: 70dvh; */
+    margin: 0 auto;
+    background-color: #e9ecef;;
+    border-radius: 0.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media screen and (max-width: 500px) {
