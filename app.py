@@ -25,3 +25,6 @@ def index():
 def get_double_data():
     result = is_double_yesterday()
     return result
+
+if __name__ == "__main__":
+    app.run()
