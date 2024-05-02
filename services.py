@@ -147,13 +147,16 @@ def is_double_yesterday():
         day_after_next_game = get_day_after_next_game(next_rockies_game_date)
         opposing_team = get_next_game_data()['opponent']
 
+        print(get_yesterdays_date().strftime('%b %#d'), file=sys.stdout)
+        print(scrape_rockies_stats('date_game'), file=sys.stdout)
+
         double = {
             "answer": "NO",
             "details": "The Rockies Didn't Play Yesterday...",
             "moreDetails": Markup(f"The Rockies play again on {add_ordinal_suffix(next_rockies_game_date)} \
-                            against the {opposing_team}.  <div>Check back here on {add_ordinal_suffix(day_after_next_game)} \
+                            against the {opposing_team}. Check back here on {add_ordinal_suffix(day_after_next_game)} \
                             to see if the Rockies got a double for the \
-                            <a target='_blank' href={link}>McDonald's Promotion</a>.</div>")
+                            <a target='_blank' href={link}>McDonald's Promotion</a>.")
         }
         return double
 
