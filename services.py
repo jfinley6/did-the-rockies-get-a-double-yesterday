@@ -142,13 +142,10 @@ def is_double_yesterday():
     link = "https://www.milehighonthecheap.com/rockies-special-deal-free-chicken-nuggets-mcdonalds-denver/"
     
     # Check to see if Rockies played yesterday
-    if scrape_rockies_stats('date_game') != get_yesterdays_date().strftime('%b %d'):
+    if scrape_rockies_stats('date_game') != get_yesterdays_date().strftime('%b%e'):
         next_rockies_game_date = get_next_rockies_game_date()
         day_after_next_game = get_day_after_next_game(next_rockies_game_date)
         opposing_team = get_next_game_data()['opponent']
-
-        print(get_yesterdays_date().strftime('%b %#d'), file=sys.stdout)
-        print(scrape_rockies_stats('date_game'), file=sys.stdout)
 
         double = {
             "answer": "NO",
