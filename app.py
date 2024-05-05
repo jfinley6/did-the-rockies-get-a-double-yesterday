@@ -30,6 +30,10 @@ def get_double_data():
     else:
         # Redirect to the root view
         return redirect("/")
+    
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run()
