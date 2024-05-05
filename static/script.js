@@ -44,6 +44,8 @@ function saveToLocalStorage(data) {
         details: data.details,
         moreDetails: data.moreDetails,
         dateAccessed: new Date().toLocaleDateString(),
+        yesterdays_date: data.yesterdays_date,
+        last_rockie_game_date: data.last_rockie_game_date
     };
     localStorage.setItem("doubleData", JSON.stringify(localStorageObject));
 }

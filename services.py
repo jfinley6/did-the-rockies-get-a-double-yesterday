@@ -159,7 +159,7 @@ def is_double_yesterday():
     last_rockie_game_date = scrape_rockies_stats('date_game')
 
     # Check to see if Rockies played yesterday
-    if last_rockie_game_date != yesterdays_date:
+    if last_rockie_game_date == yesterdays_date:
         next_rockies_game_date = get_next_rockies_game_date()
         day_after_next_game = get_day_after_next_game(next_rockies_game_date)
         opposing_team = get_next_game_data()['opponent']
@@ -171,7 +171,9 @@ def is_double_yesterday():
             "moreDetails": Markup(f"The Rockies play again on {add_ordinal_suffix(next_rockies_game_date)} \
                             against the {opposing_team}. Check back here on {add_ordinal_suffix(day_after_next_game)} \
                             to see if the Rockies got a double for the \
-                            <a target='_blank' href={link}>McDonald's Promotion</a>.")
+                            <a target='_blank' href={link}>McDonald's Promotion</a>."),
+            "yesterdays_date": yesterdays_date,
+            "last_rockie_game_date": last_rockie_game_date
         }
         return double
 
@@ -183,7 +185,9 @@ def is_double_yesterday():
             "details": "The Rockies Got a Double Yesterday!",
             "moreDetails": Markup(f"That means people in Colorado can score a free double cheeseburger \
                             today at McDonald's. Details about this promotion can be found \
-                            <a target='_blank' href={link}>here.</a>")
+                            <a target='_blank' href={link}>here.</a>"),
+            "yesterdays_date": yesterdays_date,
+            "last_rockie_game_date": last_rockie_game_date
         }
     else:
         double = {
@@ -191,6 +195,8 @@ def is_double_yesterday():
             "details": "The Rockies Did Not Get a Double Yesterday...",
             "moreDetails": Markup("That means no free double cheeseburger from McDonald's today. \
                                   Details about this promotion can be found \
-                                <a target='_blank' href={link}>here.</a> ")
+                                <a target='_blank' href={link}>here.</a> "),
+            "yesterdays_date": yesterdays_date,
+            "last_rockie_game_date": last_rockie_game_date
         }
     return double
