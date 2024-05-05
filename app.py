@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from services import is_double_yesterday
 
 
@@ -23,8 +23,13 @@ def index():
 
 @app.route('/_internal/get_double_data')
 def get_double_data():
-    result = is_double_yesterday()
-    return result
+    if request.headers.get('Accept') == 'application/json':
+        # Return JSON data
+        result = is_double_yesterday()  # Assuming this function returns JSON serializable data
+        return result
+    else:
+        # Redirect to the root view
+        return redirect("/")
 
 if __name__ == "__main__":
     app.run()
