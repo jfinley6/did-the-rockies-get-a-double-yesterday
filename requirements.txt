@@ -26,6 +26,7 @@ more-itertools==10.2.0
 msgpack==1.0.8
 packaging==24.0
 pexpect==4.9.0
+pi==0.1.2
 pkginfo==1.10.0
 platformdirs==4.2.1
 poetry==1.8.2
@@ -34,6 +35,7 @@ poetry-plugin-export==1.7.1
 ptyprocess==0.7.0
 pycparser==2.22
 pyproject_hooks==1.0.0
+pytz==2024.1
 rapidfuzz==3.8.1
 requests==2.31.0
 requests-toolbelt==1.0.0
@@ -41,6 +43,7 @@ shellingham==1.5.4
 soupsieve==2.5
 tomlkit==0.12.4
 trove-classifiers==2024.4.10
+tzlocal==5.2
 urllib3==2.2.1
 virtualenv==20.26.0
 Werkzeug==3.0.2
