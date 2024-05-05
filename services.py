@@ -146,9 +146,6 @@ def get_next_game_data():
                     if innermost_element.get_text() != 'Colorado Rockies':
                         next_game_data["opponent"] = innermost_element.get_text()
 
-                # print(innermost_element.get_text(), file=sys.stdout)
-
-
     return next_game_data
 
 
@@ -159,7 +156,7 @@ def is_double_yesterday():
     last_rockie_game_date = scrape_rockies_stats('date_game')
 
     # Check to see if Rockies played yesterday
-    if last_rockie_game_date == yesterdays_date:
+    if last_rockie_game_date != yesterdays_date:
         next_rockies_game_date = get_next_rockies_game_date()
         day_after_next_game = get_day_after_next_game(next_rockies_game_date)
         opposing_team = get_next_game_data()['opponent']
