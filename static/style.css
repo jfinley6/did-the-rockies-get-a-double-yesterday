@@ -15,7 +15,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100dvh;;
+    height: 100dvh;
     font-size: 16px;
     /* display: none; */
 }
@@ -35,18 +35,18 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 1rem;
+    justify-content: space-evenly;
     background-color: #e9ecef;
     border-radius: 0.3rem;
     box-shadow: 0 0 0 5px black;
 }
 
 p.title {
-    font-size: 2.5em;
+    font-size: calc(1em + 1.5vw);
     font-weight: 700;
     margin: 1rem 0;
     width: 90%;
+    word-wrap: break-word;
 }
 
 div.line:first-of-type {
@@ -63,7 +63,7 @@ div.line {
 }
 
 p.answer {
-    font-size: 6em;
+    font-size: calc(1em + 5vw);
     line-height: 0.8;
     font-weight: 700;
     margin: 0;
@@ -72,16 +72,16 @@ p.answer {
 }
 
 p.details {
-    font-size: 2em;
+    font-size: calc(1em + 1.5vw);
     font-weight: 700;
-    line-height: 0.8;
+    line-height: 1;
     margin: 0;
     margin-top: 0.25rem;
     width: 90%;
 }
 
 p.moreDetails {
-    font-size: 2em;
+    font-size: calc(1em + 1vw);
     font-weight: 700;
     width: 90%;
 }
@@ -108,7 +108,7 @@ footer {
 }
 
 p.footer-message {
-    font-size: 1.5em;
+    font-size: calc(1em + 1vw);
     font-weight: 700;
     width: 90%;
     margin: 0;
@@ -128,12 +128,17 @@ p.footer-message {
 
 @media (min-width: 576px) and (max-width: 768px) {
     body {
-        font-size: 12px;
+        font-size: 17px;
     }
 }
 
 @media (max-width: 576px) {
     body {
-        font-size: 12px
-    };
+        font-size: 15px
+    }
+
+    .content {
+        gap: 1em;
+        justify-content: center;
+    }
 }
