@@ -3,10 +3,12 @@ import requests
 from bs4 import BeautifulSoup
 from markupsafe import Markup
 import sys
-
+import pytz
 
 def get_yesterdays_date():
-    yesterday = date.today() - timedelta(days=1)
+    tz = pytz.timezone('America/Denver')
+    now = datetime.now(tz)
+    yesterday = now - timedelta(days=1)
     return yesterday
 
 # get_yesterdays_date() returns a leading zero if the day is less than 10, e.g. May 01
@@ -154,6 +156,8 @@ def is_double_yesterday():
     link = "https://www.milehighonthecheap.com/rockies-special-deal-free-chicken-nuggets-mcdonalds-denver/"
     yesterdays_date = strip_leading_zero_from_day(get_yesterdays_date())
     last_rockie_game_date = scrape_rockies_stats('date_game')
+
+    print(yesterdays_date, file=sys.stdout)
 
     # Check to see if Rockies played yesterday
     if last_rockie_game_date != yesterdays_date:
