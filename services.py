@@ -4,10 +4,25 @@ from bs4 import BeautifulSoup
 from markupsafe import Markup
 import sys
 
+
 def get_yesterdays_date():
     yesterday = date.today() - timedelta(days=1)
     return yesterday
 
+# get_yesterdays_date() returns a leading zero if the day is less than 10, e.g. May 01
+# so I made this method so that strips the zero so it can be 
+# compared with the Rockies date from scrape_rockies_stats('date_game') which returns May 1
+def strip_leading_zero_from_day(date_str):
+    print(date_str, file=sys.stdout)
+    formatted_yesterday = date_str.strftime('%b %d')
+
+    month, day = formatted_yesterday.split()
+    if day.startswith("0") and len(day) > 1:
+        day = day[1:]
+    
+    formatted_date = f"{month} {day}"
+
+    return formatted_date
 
 def get_day_after_next_game(game_date):
     input_date = datetime.strptime(game_date, '%b %d')
@@ -140,12 +155,15 @@ def get_next_game_data():
 def is_double_yesterday():
     # Promotion Link
     link = "https://www.milehighonthecheap.com/rockies-special-deal-free-chicken-nuggets-mcdonalds-denver/"
-    
+    yesterdays_date = strip_leading_zero_from_day(get_yesterdays_date())
+    last_rockie_game_date = scrape_rockies_stats('date_game')
+
     # Check to see if Rockies played yesterday
-    if scrape_rockies_stats('date_game') != get_yesterdays_date().strftime('%b%e'):
+    if last_rockie_game_date != yesterdays_date:
         next_rockies_game_date = get_next_rockies_game_date()
         day_after_next_game = get_day_after_next_game(next_rockies_game_date)
         opposing_team = get_next_game_data()['opponent']
+        
 
         double = {
             "answer": "NO",
