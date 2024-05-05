@@ -41,8 +41,6 @@ def get_next_rockies_game_date():
     return next_game_day_str
 
 # Returns month and day as a string
-
-
 def format_date(date_string):
     date_object = datetime.strptime(date_string, '%b %d, %Y')
     formatted_date = date_object.strftime('%b %d')
@@ -150,6 +148,41 @@ def get_next_game_data():
 
     return next_game_data
 
+# The previous team scrapped from scrape_rockies_data("oppp_ID") comes back in 3 letter variants
+# so this method returns the full team name
+def get_full_team_name(shortened_name):
+    baseball_teams = {
+        "ARI": "Arizona Diamondbacks",
+        "ATL": "Atlanta Braves",
+        "BAL": "Baltimore Orioles",
+        "BOS": "Boston Red Sox",
+        "CHC": "Chicago Cubs",
+        "CHW": "Chicago White Sox",
+        "CLE": "Cleveland Guardinas",
+        "DET": "Detroit Tigers",
+        "HOU": "Houston Astros",
+        "KCR": "Kansas City Royals",
+        "ANA": "Los Angeles Angels",
+        "LAD": "Los Angeles Dodgers",
+        "FLA": "Miami Marlins",
+        "MIL": "Milwaukee Brewers",
+        "MIN": "Minnesota Twins",
+        "NYM": "New York Mets",
+        "NYY": "New York Yankees",
+        "OAK": "Oakland Athletics",
+        "PHI": "Philadelphia Phillies",
+        "PIT": "Pittsburg Pirates",
+        "SDP": "San Diego Pirates",
+        "SFG": "San Francisco Giants",
+        "SEA": "Seattle Mariners",
+        "STL": "St. Louis Cardinals",
+        "TBD": "Tampa Bay Rays",
+        "TEX": "Texas Rangers",
+        "TOR": "Toronto Blue Jays",
+        "WSN": "Washington Nationals"     
+    }
+    return baseball_teams[shortened_name]
+
 
 def is_double_yesterday():
     # Promotion Link
@@ -157,7 +190,7 @@ def is_double_yesterday():
     yesterdays_date = strip_leading_zero_from_day(get_yesterdays_date())
     last_rockie_game_date = scrape_rockies_stats('date_game')
 
-    print(yesterdays_date, file=sys.stdout)
+    # print(yesterday_opposing_team, file=sys.stdout)
 
     # Check to see if Rockies played yesterday
     if last_rockie_game_date != yesterdays_date:
@@ -181,9 +214,11 @@ def is_double_yesterday():
 
     # Check if Number of Doubles is Greater Than 0
     if int(scrape_rockies_stats('2B')) > 0:
+        yesterdays_opposing_team = get_full_team_name(scrape_rockies_stats('opp_ID'))
+
         double = {
             "answer": "YES",
-            "details": "The Rockies Got a Double Yesterday!",
+            "details": f"The Rockies Got a Double Yesterday against the {yesterdays_opposing_team}!",
             "moreDetails": Markup(f"That means people in Colorado can score a free double cheeseburger \
                             today at McDonald's. Details about this promotion can be found \
                             <a target='_blank' href={link}>here.</a>"),
@@ -193,7 +228,7 @@ def is_double_yesterday():
     else:
         double = {
             "answer": "NO",
-            "details": "The Rockies Did Not Get a Double Yesterday...",
+            "details": f"The Rockies Did Not Get a Double Yesterday against the {yesterdays_opposing_team}...",
             "moreDetails": Markup("That means no free double cheeseburger from McDonald's today. \
                                   Details about this promotion can be found \
                                 <a target='_blank' href={link}>here.</a> "),
