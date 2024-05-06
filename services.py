@@ -190,8 +190,6 @@ def is_double_yesterday():
     yesterdays_date = strip_leading_zero_from_day(get_yesterdays_date())
     last_rockie_game_date = scrape_rockies_stats('date_game')
 
-    # print(yesterday_opposing_team, file=sys.stdout)
-
     # Check to see if Rockies played yesterday
     if last_rockie_game_date != yesterdays_date:
         next_rockies_game_date = get_next_rockies_game_date()
