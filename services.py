@@ -224,6 +224,8 @@ def is_double_yesterday():
             "last_rockie_game_date": last_rockie_game_date
         }
     else:
+        yesterdays_opposing_team = get_full_team_name(scrape_rockies_stats('opp_ID'))
+
         double = {
             "answer": "NO",
             "details": f"The Rockies Did Not Get a Double Yesterday against the {yesterdays_opposing_team}...",
