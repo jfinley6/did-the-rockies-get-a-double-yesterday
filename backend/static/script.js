@@ -1,5 +1,6 @@
 // Generate HTML using double data
 function generateHTML(data) {
+    console.log(data);
     let container = document.querySelector(".container");
     container.innerHTML = ''
 
@@ -73,6 +74,7 @@ function checkLocalStorage() {
 
 document.addEventListener("DOMContentLoaded", function () {
     checkLocalStorage().then((userData) => {
+        console.log(userData);
         generateHTML(userData);
     });
 });
