@@ -83,72 +83,41 @@ def check_html_response(url):
         return ("Failed to Retrieve Rockies Results")
 
 
-def scrape_rockies_stats(target_stat):
+def scrape_rockies_stats():
     url = f'https://www.baseball-reference.com/teams/tgl.cgi?team=COL&t=b&year={get_yesterdays_date().year}'
+    page = requests.get(url)
 
-    html_content = check_html_response(url)
-
-    if html_content:
-        # Locate the div element by ID
-        soup = BeautifulSoup(html_content, 'html.parser')
-        div_id = 'div_team_batting_gamelogs'
-        div = soup.find('div', id=div_id)
-
-        if div:
-            # Find the first tbody element inside the div (assuming there's only one)
-            tbody = div.find('tbody')
-
-            if tbody:
-                # Find all tr elements within the tbody
-                rows = tbody.find_all('tr')
-
-                if rows:
-                    # Access the last tr element (using negative index) to get
-                    # the most game
-                    last_row = rows[-1]
-
-                    # Get the text of the targeted stat
-                    stat_text = last_row.find(
-                        'td', attrs={'data-stat': target_stat}
-                    )
-
-                    return stat_text.get_text()
+    if page.status_code == 200:
+        soup = BeautifulSoup(page.text, 'lxml')
+        row = soup.select_one('#div_team_batting_gamelogs tbody tr:last-of-type')
+        if row:
+            data = {
+                'opp_team': row.find('td', {'data-stat': 'opp_ID'}).text,
+                'amount_of_doubles': int(row.find('td', {'data-stat': '2B'}).text),
+                'yesterdays_game_date': row.find('td', {'data-stat': 'date_game'}).text
+            }
+            return data
 
 
 def get_next_game_data():
     url = f'https://www.baseball-reference.com/teams/COL/{date.today().year}.shtml'
-
-    html_content = check_html_response(url)
-
+    page = requests.get(url)
     next_game_data = {}
-
-    if html_content:
-        # Locate the div element by ID
-        soup = BeautifulSoup(html_content, 'html.parser')
-        target_class = 'teams'
-        target_game = soup.find('table', class_=target_class)
-
-        # Retrieve the date from the next game
+    if page.status_code == 200:
+        soup = BeautifulSoup(page.text, 'lxml')
+        target_game = soup.find('table', class_='teams')
         if target_game:
             date_row = target_game.find('tr', class_='date')
-            innermost_element = date_row
-            while innermost_element.find():
-                innermost_element = innermost_element.find()
-            next_game_date = innermost_element.get_text()
-            next_game_data["date"] = next_game_date
-
-        if target_game:
+            next_game_data["date"] = date_row.find('td').get_text() if date_row else None
             team_rows = target_game.find_all('tr', class_='')
             for row in team_rows:
-                innermost_element = row
-                while innermost_element.find():
-                    innermost_element = innermost_element.find()
-                    if innermost_element.get_text() != 'Colorado Rockies':
-                        next_game_data["opponent"] = innermost_element.get_text()
-
+                opponent = row.find('a').get_text()
+                if opponent != 'Colorado Rockies':
+                    next_game_data["opponent"] = opponent
+                    break
     return next_game_data
 
-# The previous team scrapped from scrape_rockies_data("oppp_ID") comes back in 3 letter variants
+# 'yesterdays_game_date' scrapped from scrape_rockies_data() comes back in 3 letter variants
 # so this method returns the full team name
 def get_full_team_name(shortened_name):
     baseball_teams = {
@@ -179,7 +148,7 @@ def get_full_team_name(shortened_name):
         "TBD": "Tampa Bay Rays",
         "TEX": "Texas Rangers",
         "TOR": "Toronto Blue Jays",
-        "WSN": "Washington Nationals"     
+        "WSN": "Washington Nationals"
     }
     return baseball_teams[shortened_name]
 
@@ -188,51 +157,46 @@ def is_double_yesterday():
     # Promotion Link
     link = "https://www.milehighonthecheap.com/rockies-special-deal-free-chicken-nuggets-mcdonalds-denver/"
     yesterdays_date = strip_leading_zero_from_day(get_yesterdays_date())
-    last_rockie_game_date = scrape_rockies_stats('date_game')
+    rockie_data = scrape_rockies_stats()
 
+    print(rockie_data, file=sys.stdout)
     # Check to see if Rockies played yesterday
-    if last_rockie_game_date != yesterdays_date:
+    if rockie_data['yesterdays_game_date'] != yesterdays_date:
         next_rockies_game_date = get_next_rockies_game_date()
         day_after_next_game = get_day_after_next_game(next_rockies_game_date)
-        opposing_team = get_next_game_data()['opponent']
-        
+        next_opposing_team = get_next_game_data()['opponent']
 
         double = {
             "answer": "NO",
             "details": "The Rockies Didn't Play Yesterday...",
             "moreDetails": Markup(f"The Rockies play again on {add_ordinal_suffix(next_rockies_game_date)} \
-                            against the {opposing_team}. Check back here on {add_ordinal_suffix(day_after_next_game)} \
+                            against the {next_opposing_team}. Check back here on {add_ordinal_suffix(day_after_next_game)} \
                             to see if the Rockies got a double for the \
                             <a target='_blank' href={link}>McDonald's Promotion</a>."),
             "yesterdays_date": yesterdays_date,
-            "last_rockie_game_date": last_rockie_game_date
+            "last_rockie_game_date": rockie_data['yesterdays_game_date']
         }
         return double
 
-
     # Check if Number of Doubles is Greater Than 0
-    if int(scrape_rockies_stats('2B')) > 0:
-        yesterdays_opposing_team = get_full_team_name(scrape_rockies_stats('opp_ID'))
-
+    if rockie_data['amount_of_doubles'] > 0:
         double = {
             "answer": "YES",
-            "details": f"The Rockies Got a Double Yesterday against the {yesterdays_opposing_team}!",
+            "details": f"The Rockies Got a Double Yesterday against the {get_full_team_name(rockie_data['opp_team'])}!",
             "moreDetails": Markup(f"That means people in Colorado can score a free double cheeseburger \
                             today at McDonald's. Details about this promotion can be found \
                             <a target='_blank' href={link}>here.</a>"),
             "yesterdays_date": yesterdays_date,
-            "last_rockie_game_date": last_rockie_game_date
+            "last_rockie_game_date": rockie_data['yesterdays_game_date']
         }
     else:
-        yesterdays_opposing_team = get_full_team_name(scrape_rockies_stats('opp_ID'))
-
         double = {
             "answer": "NO",
-            "details": f"The Rockies Did Not Get a Double Yesterday against the {yesterdays_opposing_team}...",
+            "details": f"The Rockies Did Not Get a Double Yesterday against the {get_full_team_name(rockie_data['opp_team'])}...",
             "moreDetails": Markup("That means no free double cheeseburger from McDonald's today. \
                                   Details about this promotion can be found \
                                 <a target='_blank' href={link}>here.</a> "),
             "yesterdays_date": yesterdays_date,
-            "last_rockie_game_date": last_rockie_game_date
+            "last_rockie_game_date": rockie_data['yesterdays_game_date']
         }
     return double
