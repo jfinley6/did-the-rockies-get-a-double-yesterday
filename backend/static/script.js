@@ -1,6 +1,5 @@
 // Generate HTML using double data
 function generateHTML(data) {
-    console.log(data);
     let container = document.querySelector(".container");
     container.innerHTML = ''
 
@@ -55,13 +54,15 @@ function checkLocalStorage() {
     if (storedUserData !== null && storedUserData.dateAccessed === currentDate) {
         return Promise.resolve(storedUserData);
     } else {
-        return fetch("/_internal/get_double_data",
+        return fetch("/get_double_data",
         {
             headers: {
                 'Accept': 'application/json'
             }
         })
-            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+                return response.json()})
             .then((data) => {
                 saveToLocalStorage(data);
                 return data;
@@ -74,7 +75,6 @@ function checkLocalStorage() {
 
 document.addEventListener("DOMContentLoaded", function () {
     checkLocalStorage().then((userData) => {
-        console.log(userData);
         generateHTML(userData);
     });
 });

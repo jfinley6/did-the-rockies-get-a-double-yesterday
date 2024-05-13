@@ -21,7 +21,7 @@ except OSError:
 def index():
     return render_template('double/index.html')
 
-@app.route('/_internal/get_double_data')
+@app.route('/get_double_data')
 def get_double_data():
     if request.headers.get('Accept') == 'application/json':
         # Return JSON data
