@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from markupsafe import Markup
 import sys
 import pytz
+import time
 
 def get_yesterdays_date():
     tz = pytz.timezone('America/Denver')
@@ -15,7 +16,6 @@ def get_yesterdays_date():
 # so I made this method so that strips the zero so it can be 
 # compared with the Rockies date from scrape_rockies_stats('date_game') which returns May 1
 def strip_leading_zero_from_day(date_str):
-    print(date_str, file=sys.stdout)
     formatted_yesterday = date_str.strftime('%b %d')
 
     month, day = formatted_yesterday.split()
@@ -34,11 +34,6 @@ def get_day_after_next_game(game_date):
     # Convert the result back to the desired string format
     next_day_str = next_day.strftime('%b %d')
     return next_day_str
-
-
-def get_next_rockies_game_date():
-    next_game_day_str = format_date(get_next_game_data()['date'])
-    return next_game_day_str
 
 # Returns month and day as a string
 def format_date(date_string):
@@ -104,17 +99,20 @@ def get_next_game_data():
     page = requests.get(url)
     next_game_data = {}
     if page.status_code == 200:
-        soup = BeautifulSoup(page.text, 'lxml')
+        soup = BeautifulSoup(page.content, 'lxml')
         target_game = soup.find('table', class_='teams')
         if target_game:
             date_row = target_game.find('tr', class_='date')
             next_game_data["date"] = date_row.find('td').get_text() if date_row else None
-            team_rows = target_game.find_all('tr', class_='')
-            for row in team_rows:
-                opponent = row.find('a').get_text()
-                if opponent != 'Colorado Rockies':
-                    next_game_data["opponent"] = opponent
-                    break
+            
+            # Find all rows and iterate through them to locate the opponent
+            for row in target_game.find_all('tr'):
+                opponent_tag = row.find('a')
+                if opponent_tag:
+                    opponent = opponent_tag.get_text()
+                    if opponent != 'Colorado Rockies':
+                        next_game_data["opponent"] = opponent
+                        break
     return next_game_data
 
 # 'yesterdays_game_date' scrapped from scrape_rockies_data() comes back in 3 letter variants
@@ -159,12 +157,12 @@ def is_double_yesterday():
     yesterdays_date = strip_leading_zero_from_day(get_yesterdays_date())
     rockie_data = scrape_rockies_stats()
 
-    print(rockie_data, file=sys.stdout)
     # Check to see if Rockies played yesterday
-    if rockie_data['yesterdays_game_date'] != yesterdays_date:
-        next_rockies_game_date = get_next_rockies_game_date()
+    if rockie_data['yesterdays_game_date'] == yesterdays_date:
+        next_game_data = get_next_game_data()
+        next_rockies_game_date = format_date(next_game_data['date'])
         day_after_next_game = get_day_after_next_game(next_rockies_game_date)
-        next_opposing_team = get_next_game_data()['opponent']
+        next_opposing_team = next_game_data['opponent']
 
         double = {
             "answer": "NO",
