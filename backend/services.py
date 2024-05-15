@@ -152,7 +152,7 @@ def is_double_yesterday():
     rockie_data = scrape_rockies_stats()
 
     # Check to see if Rockies played yesterday
-    if rockie_data['yesterdays_game_date'] == yesterdays_date:
+    if rockie_data['yesterdays_game_date'] != yesterdays_date:
         next_game_data = get_next_game_data()
         next_rockies_game_date = format_date(next_game_data['date'])
         day_after_next_game = get_day_after_next_game(next_rockies_game_date)
