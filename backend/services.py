@@ -37,8 +37,8 @@ def get_day_after_next_game(game_date):
 
 # Returns month and day as a string
 def format_date(date_string):
-    date_object = datetime.strptime(date_string, '%b %d, %Y')
-    formatted_date = date_object.strftime('%b %d')
+    date_object = datetime.strptime(date_string, "%A, %B %d")
+    formatted_date = date_object.strftime('%B %d')
 
     return formatted_date
 
@@ -95,24 +95,18 @@ def scrape_rockies_stats():
 
 
 def get_next_game_data():
-    url = f'https://www.baseball-reference.com/teams/COL/{date.today().year}.shtml'
+    url = f'https://www.baseball-reference.com/teams/COL/{get_yesterdays_date().year}-schedule-scores.shtml'
     page = requests.get(url)
-    next_game_data = {}
+
     if page.status_code == 200:
-        soup = BeautifulSoup(page.content, 'lxml')
-        target_game = soup.find('table', class_='teams')
-        if target_game:
-            date_row = target_game.find('tr', class_='date')
-            next_game_data["date"] = date_row.find('td').get_text() if date_row else None
-            
-            # Find all rows and iterate through them to locate the opponent
-            for row in target_game.find_all('tr'):
-                opponent_tag = row.find('a')
-                if opponent_tag:
-                    opponent = opponent_tag.get_text()
-                    if opponent != 'Colorado Rockies':
-                        next_game_data["opponent"] = opponent
-                        break
+        soup = BeautifulSoup(page.text, 'lxml')
+        # This row will be the first game with a preview section since it hasn't happened yet
+        next_game_row = soup.find('td', {'data-stat': 'preview'}).parent
+        next_game_data = {
+            'date': next_game_row.find('td', {'data-stat': 'date_game'}).get_text(),
+            'opponent': next_game_row.find('td', {'data-stat': 'opp_ID'}).get_text()
+        }
+
     return next_game_data
 
 # 'yesterdays_game_date' scrapped from scrape_rockies_data() comes back in 3 letter variants
@@ -158,11 +152,11 @@ def is_double_yesterday():
     rockie_data = scrape_rockies_stats()
 
     # Check to see if Rockies played yesterday
-    if rockie_data['yesterdays_game_date'] != yesterdays_date:
+    if rockie_data['yesterdays_game_date'] == yesterdays_date:
         next_game_data = get_next_game_data()
         next_rockies_game_date = format_date(next_game_data['date'])
         day_after_next_game = get_day_after_next_game(next_rockies_game_date)
-        next_opposing_team = next_game_data['opponent']
+        next_opposing_team = get_full_team_name(next_game_data['opponent'])
 
         double = {
             "answer": "NO",
