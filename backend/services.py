@@ -175,8 +175,8 @@ def is_double_yesterday():
         double = {
             "answer": "YES",
             "details": f"The Rockies Got a Double Yesterday against the {get_full_team_name(rockie_data['opp_team'])}!",
-            "moreDetails": Markup(f"That means people in Colorado can score a free double cheeseburger \
-                            today at McDonald's. Details about this promotion can be found \
+            "moreDetails": Markup(f"That means people in Colorado can score a double cheeseburger \
+                            today at McDonald's for 1$. Details about this promotion can be found \
                             <a target='_blank' href={link}>here.</a>"),
             "yesterdays_date": yesterdays_date,
             "last_rockie_game_date": rockie_data['yesterdays_game_date']
@@ -185,7 +185,7 @@ def is_double_yesterday():
         double = {
             "answer": "NO",
             "details": f"The Rockies Did Not Get a Double Yesterday against the {get_full_team_name(rockie_data['opp_team'])}...",
-            "moreDetails": Markup("That means no free double cheeseburger from McDonald's today. \
+            "moreDetails": Markup("That means no 1$ double cheeseburger from McDonald's today. \
                                   Details about this promotion can be found \
                                 <a target='_blank' href={link}>here.</a> "),
             "yesterdays_date": yesterdays_date,
