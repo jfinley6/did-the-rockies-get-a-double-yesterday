@@ -34,9 +34,12 @@
   <h3 align="center">Rockies Double Checker</h3>
 
   <p align="center">
-    Every game where the Rockies hit a double, fans will get a chance to get a free double cheeseburger
-    at McDonald's the day after the game. This site will give you accurate info about the previous game as well as details
+    Every game where the Rockies hit a double, fans will get a chance to get a ~~free~~ double cheeseburger
+    at McDonald's for 1$ the day after the game. This site will give you accurate info about the previous game as well as details
     about the promotion.
+    
+    <br />
+    UPDATE: Mcdonald's has changed the fine print of the promotion to include a 1$ minimum purchase. I've decided to halt planned updates and leave the site as is.
     <br />
     <br />
     <a href="https://rockies-double-checker.onrender.com/">View Demo</a>
@@ -167,7 +170,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-Your Name - j.finley92@gmail.com
+John Finley - j.finley92@gmail.com
 
 Project Link: [https://github.com/jfinley6/rockies-double-checker](https://github.com/jfinley6/rockies-double-checker)
 
