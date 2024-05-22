@@ -82,7 +82,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="https://i.imgur.com/jG0SaBO.png" alt="Logo">
+<img src="https://i.imgur.com/WsgbW2l.png" alt="Logo">
 
 This was an idea I had for something to build after learning about the Mcdonald's promotion from a friend. I decided to use Python since I knew that it had strong web scraping
 capabilites as well as Flask since I'm always interested in trying new frameworks. 
